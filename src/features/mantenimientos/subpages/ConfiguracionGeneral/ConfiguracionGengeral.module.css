@@ -1,0 +1,13 @@
+.data__container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(435px, 1fr));
+    gap: 20px;
+}
+.one_column{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(435px, 1fr));
+    gap: 20px;
+}
+.button__container{
+    width: 180px;
+}

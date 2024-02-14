@@ -1,0 +1,18 @@
+# docker-compose.yml
+version: '3.8'
+services:
+  app:
+    build: .
+    image: sempiterno-group/billetera
+    ports:
+      - "4173:4173"
+    networks:
+      - proxy
+    environment:
+      - VIRTUAL_HOST=billetera.tarjetaestilos.com.pe
+      - LETSENCRYPT_HOST=billetera.tarjetaestilos.com.pe
+      - LETSENCRYPT_EMAIL=avaldivieso@sempiterno-group.com
+
+networks:
+  proxy:
+    external: true
