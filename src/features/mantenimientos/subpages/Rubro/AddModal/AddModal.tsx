@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./AddModal.module.css";
 
 import { handleChangeInput } from "@/helpers/handleTextBox";
@@ -20,9 +20,20 @@ export const AddModal = ({ postFetchData, updateFetchData, updateData }: PropsAd
 
 	const handleCreate = async () => {
 		// console.log(newData);
-		postFetchData(newData)
+		postFetchData(newData);
 	};
 
+	const handleUpdate = async () => {
+		const { id, ...restData } = newData;
+		updateFetchData(id, restData);
+	};
+
+	// Seteando el estado del input al data si existe el update
+	useEffect(() => {
+		if (updateData) {
+			setNewData(updateData);
+		}
+	}, [updateData]);
 	return (
 		<div className={style.column__container}>
 			<TextBoxField
@@ -48,7 +59,7 @@ export const AddModal = ({ postFetchData, updateFetchData, updateData }: PropsAd
 
 			{updateFetchData && (
 				<div>
-					<Button className="p-button-sm p-button-info mr-2" onClick={() => {}}>
+					<Button className="p-button-sm p-button-info mr-2" onClick={handleUpdate}>
 						EDITAR RUBRO
 					</Button>
 				</div>

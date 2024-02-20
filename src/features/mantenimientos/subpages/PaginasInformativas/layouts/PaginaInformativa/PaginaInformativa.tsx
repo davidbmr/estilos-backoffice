@@ -26,7 +26,7 @@ export const PaginaInformativa = () => {
 			content: text,
 			pageType: slug,
 		};
-		updateFetchData(slug, newData);
+		updateFetchData(slug, newData, "put");
 
 		setTimeout(() => {
 			navigate("/paginas-informativas");

@@ -48,16 +48,16 @@ export const ConfiguracionGeneral = () => {
 
 	const handleUpdateConfig = () => {
 		if (cuotas.value != cuotasFetch?.data?.data[0].value) {
-			updateFetchData(cuotas.id, cuotas);
+			updateFetchData(cuotas.id, cuotas, "put");
 		}
 		if (favoritos.value != favoritosFetch?.data?.data[0].value) {
-			updateFetchData(favoritos.id, favoritos);
+			updateFetchData(favoritos.id, favoritos, "put");
 		}
 		if (limiteEnvio.value != limiteEnvioFetch?.data?.data[0].value) {
-			updateFetchData(limiteEnvio.id, limiteEnvio);
+			updateFetchData(limiteEnvio.id, limiteEnvio, "put");
 		}
 		if (intentosIngreso.value != intentosIngresoFetch?.data?.data[0].value) {
-			updateFetchData(intentosIngreso.id, intentosIngreso);
+			updateFetchData(intentosIngreso.id, intentosIngreso, "put");
 		}
 	};
 

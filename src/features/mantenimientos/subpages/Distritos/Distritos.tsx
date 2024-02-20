@@ -23,9 +23,13 @@ export const Distritos = () => {
 	);
 
 	const handleUpdate = (rowData: any) => {
-		updateFetchData(rowData.id, {
-			active: !rowData.active,
-		});
+		updateFetchData(
+			rowData.id,
+			{
+				active: !rowData.active,
+			},
+			"put"
+		);
 	};
 
 	return (

@@ -7,11 +7,21 @@ import { SectionStructure } from "@/components/SectionStructure/SectionStructure
 import { useGetFetch } from "@/hooks/useGetFetch";
 import { useParams } from "react-router-dom";
 import { useUpdateFetch } from "@/hooks/useUpdateFetch";
+import { PrimeModal } from "@/primeComponents/PrimeModal/PrimeModal";
+import { useModal } from "@/hooks/useModal";
+import { PosModal } from "../PosModal/PosModal";
+import { usePostFetch } from "@/hooks/usePostFetch";
 
 export const DetalleSede = () => {
 	const { id } = useParams();
+	const posModal = useModal();
 	const { data, reloadFetchData } = useGetFetch(`/admin/location/general/${id}`);
-	const { updateFetchData } = useUpdateFetch("/admin/location/general/active", "Sedes", reloadFetchData);
+	const { postFetchData } = usePostFetch("/auth/register", "POS", reloadFetchData, posModal);
+	const { updateFetchData } = useUpdateFetch(
+		"/admin/location/general/active",
+		"Sedes",
+		reloadFetchData
+	);
 
 	const onActiveEstablishment = () => {
 		updateFetchData(id, { isActive: true });
@@ -59,6 +69,7 @@ export const DetalleSede = () => {
 							<ContentBox>
 								<div className={style.info__container}>
 									<p className={style.subtitle__name}>Información del establecimiento:</p>
+
 									<div className={style.box__item}>
 										<p className={style.title__item}>Nombre del establecimiento:</p>
 										<p className={style.text__item}>{data?.data?.business?.businessName}</p>
@@ -69,7 +80,9 @@ export const DetalleSede = () => {
 									</div>
 									<div className={style.box__item}>
 										<p className={style.title__item}>Descripción del destablecimiento:</p>
-										<p className={style.text__item}>{data?.data?.business?.establishmentDescription}</p>
+										<p className={style.text__item}>
+											{data?.data?.business?.establishmentDescription}
+										</p>
 									</div>
 									<div className={style.box__item}>
 										<p className={style.title__item}>Industria:</p>
@@ -82,6 +95,41 @@ export const DetalleSede = () => {
 								</div>
 							</ContentBox>
 						</div>
+
+						{/* <ContentBox>
+							<p className={style.subtitle__name}>POS:</p>
+							{data?.data?.locations &&
+								data?.data?.locations.map((item: any) => (
+									<ContentBox
+										key={item.id}
+										backgroundActive
+										additionalClassName={style.box__container__sede}
+									>
+										<div>
+											<p>
+												<b>Nombre:</b> {item.name}
+											</p>
+											<p>
+												<b>Dirección:</b> {item.address}
+											</p>
+											<p>
+												<b>Longitud:</b> {item.longitude}
+											</p>
+											<p>
+												<b>Latitud:</b> {item.latitude}
+											</p>
+										</div>
+										<CustomButton
+											text="Ver detalle"
+											height="40px"
+											sizeP="16px"
+											backgroundButton="var(--cta-color-3)"
+											colorP="#fff"
+											onClick={() => navigate(`/sedes/detalle/${item.id}`)}
+										/>
+									</ContentBox>
+								))}
+						</ContentBox> */}
 
 						<div className={style.button__box}>
 							<div className={style.button__container}>
@@ -104,10 +152,29 @@ export const DetalleSede = () => {
 									onClick={onDesactiveEstablishment}
 								/>
 							</div>
+							<div className={style.button__container}>
+								<CustomButton
+									text="Agregar POS"
+									height="50px"
+									sizeP="18px"
+									backgroundButton="var(--cta-color-3)"
+									colorP="#fff"
+									onClick={posModal.onVisibleModal}
+								/>
+							</div>
 						</div>
 					</div>
 				</SectionStructure>
 			</MainContentStructure>
+
+			{/* POS Modal */}
+			<PrimeModal
+				header="Agregar pos"
+				modalStatus={posModal.modalStatus}
+				onHideModal={posModal.onHideModal}
+			>
+				<PosModal postFetchData={postFetchData} idLocation={id} />
+			</PrimeModal>
 		</>
 	);
 };

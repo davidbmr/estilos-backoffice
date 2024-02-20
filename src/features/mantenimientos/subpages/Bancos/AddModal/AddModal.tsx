@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import style from "./AddModal.module.css";
 
-import { BankProps, BankDataProps } from "../types";
 import { handleChangeInput } from "@/helpers/handleTextBox";
 
 import { Button } from "primereact/button";
@@ -15,7 +14,7 @@ interface PropsAddModal {
 }
 
 export const AddModal = ({ postFetchData, updateFetchData, updateData }: PropsAddModal) => {
-	const [newBank, setNewBank] = useState<BankProps>({
+	const [newData, setNewData] = useState<any>({
 		code: "",
 		name: "",
 		address: "",
@@ -24,17 +23,18 @@ export const AddModal = ({ postFetchData, updateFetchData, updateData }: PropsAd
 	});
 
 	const handleCreate = async () => {
-		postFetchData(newBank);
+		postFetchData(newData);
 	};
 
 	const handleUpdate = async () => {
-		console.log(newBank);
+		const { id, ...restData } = newData;
+		updateFetchData(id, restData);
 	};
 
 	// Seteando el estado del input al data si existe el update
 	useEffect(() => {
 		if (updateData) {
-			setNewBank(updateData);
+			setNewData(updateData);
 		}
 	}, [updateData]);
 
@@ -42,33 +42,33 @@ export const AddModal = ({ postFetchData, updateFetchData, updateData }: PropsAd
 		<div className={style.column__container}>
 			<TextBoxField
 				textLabel="Código"
-				value={newBank.code || ""}
+				value={newData.code || ""}
 				name="code"
-				onChange={(e) => handleChangeInput(e, setNewBank)}
+				onChange={(e) => handleChangeInput(e, setNewData)}
 			/>
 			<TextBoxField
 				textLabel="Nombre del banco"
-				value={newBank.name || ""}
+				value={newData.name || ""}
 				name="name"
-				onChange={(e) => handleChangeInput(e, setNewBank)}
+				onChange={(e) => handleChangeInput(e, setNewData)}
 			/>
 			<TextBoxField
 				textLabel="Dirección"
-				value={newBank.address || ""}
+				value={newData.address || ""}
 				name="address"
-				onChange={(e) => handleChangeInput(e, setNewBank)}
+				onChange={(e) => handleChangeInput(e, setNewData)}
 			/>
 			<TextBoxField
 				textLabel="Teléfono"
-				value={newBank.phone || ""}
+				value={newData.phone || ""}
 				name="phone"
-				onChange={(e) => handleChangeInput(e, setNewBank)}
+				onChange={(e) => handleChangeInput(e, setNewData)}
 			/>
 			<TextBoxField
 				textLabel="Correo electrónico"
-				value={newBank.email || ""}
+				value={newData.email || ""}
 				name="email"
-				onChange={(e) => handleChangeInput(e, setNewBank)}
+				onChange={(e) => handleChangeInput(e, setNewData)}
 			/>
 
 			{postFetchData && (

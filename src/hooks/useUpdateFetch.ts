@@ -41,7 +41,11 @@ export const useUpdateFetch = (
 		}
 	}, [successUpdate]);
 
-	const updateFetchData = async (id: any, data: any): Promise<any> => {
+	const updateFetchData = async (
+		id: any,
+		data: any,
+		type: "put" | "patch" = "patch"
+	): Promise<any> => {
 		try {
 			setIsLoadingUpdate(true);
 
@@ -51,9 +55,15 @@ export const useUpdateFetch = (
 				// "x-token": token,
 			};
 
-			await axios.patch(`${url}${endPoint}/${id}`, data, {
-				headers,
-			});
+			{
+				type === "patch"
+					? await axios.patch(`${url}${endPoint}/${id}`, data, {
+							headers,
+					  })
+					: await axios.put(`${url}${endPoint}/${id}`, data, {
+							headers,
+					  });
+			}
 
 			setIsLoadingUpdate(false);
 			setSuccessUpdate(true);

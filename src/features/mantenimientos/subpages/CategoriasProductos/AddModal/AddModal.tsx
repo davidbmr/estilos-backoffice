@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./AddModal.module.css";
 
 import { handleChangeInput } from "@/helpers/handleTextBox";
 
 import { Button } from "primereact/button";
 import { TextBoxField } from "@/components/TextBoxField/TextBoxField";
-import { SelectField } from "@/components/SelectField/SelectField";
+import { FileUpload } from "primereact/fileupload";
 
 interface PropsAddModal {
 	postFetchData?: any;
@@ -16,17 +16,51 @@ interface PropsAddModal {
 export const AddModal = ({ postFetchData, updateFetchData, updateData }: PropsAddModal) => {
 	const [newData, setNewData] = useState<any>({
 		name: "",
-		nameUrl: "",
+		banner: null,
+		url: "",
 	});
 
 	const handleCreate = async () => {
-		console.log(newData);
-		postFetchData(newData)
+		const formData = new FormData();
+		Object.entries(newData).forEach(([key, value]) => {
+			if (value !== null && value !== undefined) {
+				if (value instanceof File) {
+					formData.append(key, value);
+				} else {
+					formData.append(key, String(value));
+				}
+			}
+		});
+		// console.log(newData);
+
+		postFetchData(formData);
 	};
 
 	const handleUpdate = async () => {
-		updateFetchData(newData)
-	}
+		const { id, ...restData } = newData;
+		const formData = new FormData();
+		Object.entries(restData).forEach(([key, value]) => {
+			if (value !== null && value !== undefined) {
+				if (value instanceof File) {
+					formData.append(key, value);
+				} else {
+					formData.append(key, String(value));
+				}
+			}
+		});
+		updateFetchData(id, formData);
+	};
+
+	const handleBannerChange = (e: any) => {
+		setNewData({ ...newData, banner: e.files[0] });
+	};
+
+	// Seteando el estado del input al data si existe el update
+	useEffect(() => {
+		if (updateData) {
+			setNewData(updateData);
+		}
+	}, [updateData]);
 
 	return (
 		<div className={style.column__container}>
@@ -39,10 +73,22 @@ export const AddModal = ({ postFetchData, updateFetchData, updateData }: PropsAd
 
 			<TextBoxField
 				textLabel="URL"
-				value={newData.nameUrl || ""}
-				name="nameUrl"
+				value={newData.url || ""}
+				name="url"
 				onChange={(e) => handleChangeInput(e, setNewData)}
 			/>
+
+			<div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+				<label>Archivo de imagen</label>
+				<FileUpload
+					mode="basic"
+					name="file_field_name"
+					accept="image/*"
+					maxFileSize={1000000}
+					onSelect={handleBannerChange}
+					chooseLabel="Cargar imagen"
+				/>
+			</div>
 
 			{postFetchData && (
 				<div>
@@ -54,7 +100,7 @@ export const AddModal = ({ postFetchData, updateFetchData, updateData }: PropsAd
 
 			{updateFetchData && (
 				<div>
-					<Button className="p-button-sm p-button-info mr-2" onClick={() => {}}>
+					<Button className="p-button-sm p-button-info mr-2" onClick={handleUpdate}>
 						EDITAR CATEGORÍA
 					</Button>
 				</div>

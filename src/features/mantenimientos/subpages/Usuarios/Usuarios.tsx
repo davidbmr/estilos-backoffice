@@ -17,9 +17,7 @@ export const Usuarios = () => {
 	const { postFetchData } = usePostFetch("/auth/register", "Usuario", reloadFetchData, addModal);
 
 	const handleUpdate = (rowData: any) => {
-		updateFetchData(rowData._id, {
-			is_active: !rowData.is_active,
-		});
+		updateFetchData(`${rowData.id}/toggle-status`, {});
 	};
 
 	return (
@@ -31,6 +29,7 @@ export const Usuarios = () => {
 					// isHeaderActive={false}
 					textAddButton="AGREGAR USUARIO"
 					onAddModal={addModal.onVisibleModal}
+					onDelete={handleUpdate}
 				/>
 			</MainContentStructure>
 
@@ -54,6 +53,12 @@ const columns = [
 	{ nombre: "Número de documento", campo: "documentNumber" },
 	{ nombre: "Celular", campo: "cellPhone" },
 	{ nombre: "Correo electrónico", campo: "email" },
+	{
+		nombre: "Activo",
+		body: (rowData: any) => {
+			return <>{rowData.isActive ? "Habilitado" : "Deshabilitado"}</>;
+		},
+	},
 	// {
 	// 	nombre: "Estado",
 	// 	body: (rowData: any) => {

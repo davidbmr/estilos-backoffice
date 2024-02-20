@@ -5,10 +5,11 @@ import { CustomButton } from "@/components/CustomButton/CustomButton";
 import { MainContentStructure } from "@/components/MainContentStructure/MainContentStructure";
 import { SectionStructure } from "@/components/SectionStructure/SectionStructure";
 import { useGetFetch } from "@/hooks/useGetFetch";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useUpdateFetch } from "@/hooks/useUpdateFetch";
 
 export const DetalleEstablecimiento = () => {
+	const navigate = useNavigate();
 	const { id } = useParams();
 	const { data, reloadFetchData } = useGetFetch(`/admin/establishment/${id}`);
 	const { updateFetchData } = useUpdateFetch(
@@ -24,6 +25,7 @@ export const DetalleEstablecimiento = () => {
 	const onDesactiveEstablishment = () => {
 		updateFetchData(id, { isActive: false });
 	};
+	console.log(data?.data?.locations);
 
 	return (
 		<>
@@ -78,6 +80,41 @@ export const DetalleEstablecimiento = () => {
 								</div>
 							</ContentBox>
 						</div>
+
+						<ContentBox>
+							<p className={style.subtitle__name}>Sedes:</p>
+							{data?.data?.locations &&
+								data?.data?.locations.map((item: any) => (
+									<ContentBox
+										key={item.id}
+										backgroundActive
+										additionalClassName={style.box__container__sede}
+									>
+										<div>
+											<p>
+												<b>Nombre:</b> {item.name}
+											</p>
+											<p>
+												<b>Dirección:</b> {item.address}
+											</p>
+											<p>
+												<b>Longitud:</b> {item.longitude}
+											</p>
+											<p>
+												<b>Latitud:</b> {item.latitude}
+											</p>
+										</div>
+										<CustomButton
+											text="Ver detalle"
+											height="40px"
+											sizeP="16px"
+											backgroundButton="var(--cta-color-3)"
+											colorP="#fff"
+											onClick={() => navigate(`/sedes/detalle/${item.id}`)}
+										/>
+									</ContentBox>
+								))}
+						</ContentBox>
 
 						<div className={style.button__box}>
 							<div className={style.button__container}>

@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import style from "./Dashboard.module.css";
 
 import { MainContentStructure } from "@/components/MainContentStructure/MainContentStructure";
+import { useGetFetch } from "@/hooks/useGetFetch";
 
 export function Dashboard() {
+	const { data, reloadFetchData } = useGetFetch("/admin/dashboard");
 	return (
 		<MainContentStructure titleText="Dashboard">
 			<div className={style.dashboard__container}>

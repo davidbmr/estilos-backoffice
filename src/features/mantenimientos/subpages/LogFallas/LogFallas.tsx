@@ -6,7 +6,6 @@ import { useGetFetch } from "@/hooks/useGetFetch";
 
 export const LogFallas = () => {
 	const { data, reloadFetchData } = useGetFetch("/errors");
-	console.log(data);
 
 	return (
 		<>
@@ -18,7 +17,7 @@ export const LogFallas = () => {
 };
 
 const columns = [
-	{ nombre: "ID", campo: "id" },
+	// { nombre: "ID", campo: "id" },
 	{ nombre: "Error", campo: "error" },
 	{ nombre: "Status", campo: "status" },
 	{ nombre: "Url", campo: "url" },

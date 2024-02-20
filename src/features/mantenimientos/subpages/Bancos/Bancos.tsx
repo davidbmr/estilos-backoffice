@@ -25,10 +25,9 @@ export const Bancos = () => {
 	const { updateFetchData } = useUpdateFetch("/admin/bank", "Banco", reloadFetchData, updateModal);
 
 	// Logica para el modal del update y sus datos
-	const onUpdate = (data: BankDataProps | null) => {
-		console.log(data);
-		// setCurrentUpdateData(newData);
-		// updateModal.onVisibleModal();
+	const onUpdate = (rowData: any) => {
+		setCurrentUpdateData(rowData);
+		updateModal.onVisibleModal();
 	};
 
 	const onDelete = (data: any) => {
@@ -44,7 +43,7 @@ export const Bancos = () => {
 					data={data?.data}
 					textAddButton="AGREGAR BANCO"
 					onAddModal={addModal.onVisibleModal}
-					onUpdate={false}
+					onUpdate={onUpdate}
 					onDelete={onDelete}
 				/>
 			</MainContentStructure>

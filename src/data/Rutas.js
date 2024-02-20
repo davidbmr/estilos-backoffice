@@ -198,12 +198,12 @@ export const appRoutesMantenimientos = [
 		group: true,
 		groupName: "Logs",
 		routes: [
-			// {
-			// 	path: "/historial-uso",
-			// 	sidebarProps: {
-			// 		displayText: "Historial de uso",
-			// 	},
-			// },
+			{
+				path: "/historial-uso",
+				sidebarProps: {
+					displayText: "Historial de uso",
+				},
+			},
 			{
 				path: "/log-fallas",
 				sidebarProps: {

@@ -56,7 +56,8 @@ export const PrimeDataTable = ({ columns, data, onUpdate, onDelete, onEye }) => 
 			<DataTable
 				value={dataTable}
 				paginator
-				rows={5}
+				rows={20}
+				size="small"
 				dataKey="id"
 				emptyMessage="No se han encontrado resultados."
 			>
